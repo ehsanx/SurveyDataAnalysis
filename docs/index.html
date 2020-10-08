@@ -2123,7 +2123,7 @@ summary(weights(w.design.wrong))</code></pre>
 <h2><span class="header-section-number">11.2</span> Wrong analysis</h2>
 <pre class="r"><code>out.formula &lt;- as.formula(cholesterol.bin ~ diabetes + 
                             gender + race + education + 
-                            married + income + + age + 
+                            married + income + age + 
                             diastolicBP + systolicBP + bmi)
 fit.wrong &lt;- svyglm(out.formula,
                design = w.design.wrong, 
@@ -2199,7 +2199,42 @@ summary(weights(w.designX))</code></pre>
 <h2><span class="header-section-number">11.4</span> Regression analysis</h2>
 <pre class="r"><code>out.formula &lt;- as.formula(cholesterol.bin ~ diabetes + 
                             gender + race + education + 
-                            married + income + + age + 
+                            married + income + age)
+fit1 &lt;- svyglm(out.formula,
+               design = w.designX, 
+               family = binomial(logit))</code></pre>
+<pre><code>## Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
+<pre class="r"><code># default = denominator degrees of freedom for Wald tests?</code></pre>
+<pre class="r"><code>require(Publish)
+# notice that the conclusion from CI.95  p-value are contradictory
+# For example: gender/Male OR 1.51 [95% CI: 1.10;2.07] but p-value is 0.1233
+publish(fit1)</code></pre>
+<pre><code>##   Variable              Units OddsRatio       CI.95  p-value 
+##   diabetes                 No       Ref                      
+##                           Yes      1.93 [1.19;3.11]   0.1156 
+##     gender             Female       Ref                      
+##                          Male      1.51 [1.10;2.07]   0.1233 
+##       race              Black       Ref                      
+##                      Hispanic      0.81 [0.58;1.14]   0.3492 
+##                         Other      0.84 [0.56;1.25]   0.4792 
+##                         White      1.01 [0.65;1.57]   0.9626 
+##  education            College       Ref                      
+##                   High.School      1.08 [0.87;1.34]   0.5533 
+##                        School      0.94 [0.51;1.71]   0.8524 
+##    married            Married       Ref                      
+##                 Never.married      1.27 [0.74;2.17]   0.4759 
+##            Previously.married      1.22 [1.04;1.45]   0.1416 
+##     income               &lt;25k       Ref                      
+##              Between.25kto54k      0.96 [0.69;1.35]   0.8523 
+##              Between.55kto99k      0.96 [0.60;1.53]   0.8833 
+##                      Over100k      0.63 [0.42;0.94]   0.1534 
+##        age                         0.99 [0.98;1.00]   0.1430</code></pre>
+</div>
+<div id="regression-analysis-with-more-covariates" class="section level2">
+<h2><span class="header-section-number">11.5</span> Regression analysis with more covariates</h2>
+<pre class="r"><code>out.formula &lt;- as.formula(cholesterol.bin ~ diabetes + 
+                            gender + race + education + 
+                            married + income + age + 
                             diastolicBP + systolicBP + bmi)
 fit1 &lt;- svyglm(out.formula,
                design = w.designX, 
@@ -2251,10 +2286,9 @@ publish(fit1)</code></pre>
 ##   systolicBP                         0.99 [0.98;1.00]     Inf 
 ##          bmi                         0.99 [0.97;1.01]     Inf</code></pre>
 </div>
-<div id="residual-df-designdf.residual" class="section level2">
-<h2><span class="header-section-number">11.5</span> Residual df = design$df.residual</h2>
-<pre class="r"><code># current default option
-summary(fit1)$coefficients</code></pre>
+<div id="current-default-option" class="section level2">
+<h2><span class="header-section-number">11.6</span> Current default option</h2>
+<pre class="r"><code>summary(fit1)$coefficients</code></pre>
 <pre><code>##                               Estimate Std. Error
 ## (Intercept)                3.106465338        Inf
 ## diabetesYes                0.678604077        Inf
@@ -2275,7 +2309,7 @@ summary(fit1)$coefficients</code></pre>
 ## bmi                       -0.007001220        Inf</code></pre>
 </div>
 <div id="tests-based-on-a-normal-distribution" class="section level2">
-<h2><span class="header-section-number">11.6</span> Tests based on a Normal distribution</h2>
+<h2><span class="header-section-number">11.7</span> Tests based on a Normal distribution</h2>
 <pre class="r"><code># p-value
 summary(fit1, df.resid = Inf)</code></pre>
 <pre><code>## 

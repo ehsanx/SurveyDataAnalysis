@@ -935,7 +935,7 @@ summary(weights(w.design.wrong))
 ```r
 out.formula <- as.formula(cholesterol.bin ~ diabetes + 
                             gender + race + education + 
-                            married + income + + age + 
+                            married + income + age + 
                             diastolicBP + systolicBP + bmi)
 fit.wrong <- svyglm(out.formula,
                design = w.design.wrong, 
@@ -1071,7 +1071,58 @@ names(w.designX)
 ```r
 out.formula <- as.formula(cholesterol.bin ~ diabetes + 
                             gender + race + education + 
-                            married + income + + age + 
+                            married + income + age)
+fit1 <- svyglm(out.formula,
+               design = w.designX, 
+               family = binomial(logit))
+```
+
+```
+## Warning in eval(family$initialize): non-integer #successes in a binomial glm!
+```
+
+```r
+# default = denominator degrees of freedom for Wald tests?
+```
+
+
+```r
+require(Publish)
+# notice that the conclusion from CI.95  p-value are contradictory
+# For example: gender/Male OR 1.51 [95% CI: 1.10;2.07] but p-value is 0.1233
+publish(fit1)
+```
+
+```
+##   Variable              Units OddsRatio       CI.95  p-value 
+##   diabetes                 No       Ref                      
+##                           Yes      1.93 [1.19;3.11]   0.1156 
+##     gender             Female       Ref                      
+##                          Male      1.51 [1.10;2.07]   0.1233 
+##       race              Black       Ref                      
+##                      Hispanic      0.81 [0.58;1.14]   0.3492 
+##                         Other      0.84 [0.56;1.25]   0.4792 
+##                         White      1.01 [0.65;1.57]   0.9626 
+##  education            College       Ref                      
+##                   High.School      1.08 [0.87;1.34]   0.5533 
+##                        School      0.94 [0.51;1.71]   0.8524 
+##    married            Married       Ref                      
+##                 Never.married      1.27 [0.74;2.17]   0.4759 
+##            Previously.married      1.22 [1.04;1.45]   0.1416 
+##     income               <25k       Ref                      
+##              Between.25kto54k      0.96 [0.69;1.35]   0.8523 
+##              Between.55kto99k      0.96 [0.60;1.53]   0.8833 
+##                      Over100k      0.63 [0.42;0.94]   0.1534 
+##        age                         0.99 [0.98;1.00]   0.1430
+```
+
+## Regression analysis with more covariates
+
+
+```r
+out.formula <- as.formula(cholesterol.bin ~ diabetes + 
+                            gender + race + education + 
+                            married + income + age + 
                             diastolicBP + systolicBP + bmi)
 fit1 <- svyglm(out.formula,
                design = w.designX, 
@@ -1143,11 +1194,10 @@ publish(fit1)
 ##          bmi                         0.99 [0.97;1.01]     Inf
 ```
 
-## Residual df = design$df.residual
+## Current default option
 
 
 ```r
-# current default option
 summary(fit1)$coefficients
 ```
 

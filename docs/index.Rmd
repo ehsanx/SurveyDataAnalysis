@@ -510,7 +510,7 @@ summary(weights(w.design.wrong))
 ```{r, cache=TRUE}
 out.formula <- as.formula(cholesterol.bin ~ diabetes + 
                             gender + race + education + 
-                            married + income + + age + 
+                            married + income + age + 
                             diastolicBP + systolicBP + bmi)
 fit.wrong <- svyglm(out.formula,
                design = w.design.wrong, 
@@ -552,7 +552,26 @@ names(w.designX)
 ```{r, cache=TRUE}
 out.formula <- as.formula(cholesterol.bin ~ diabetes + 
                             gender + race + education + 
-                            married + income + + age + 
+                            married + income + age)
+fit1 <- svyglm(out.formula,
+               design = w.designX, 
+               family = binomial(logit))
+# default = denominator degrees of freedom for Wald tests?
+```
+
+```{r}
+require(Publish)
+# notice that the conclusion from CI.95  p-value are contradictory
+# For example: gender/Male OR 1.51 [95% CI: 1.10;2.07] but p-value is 0.1233
+publish(fit1)
+```
+
+## Regression analysis with more covariates
+
+```{r, cache=TRUE}
+out.formula <- as.formula(cholesterol.bin ~ diabetes + 
+                            gender + race + education + 
+                            married + income + age + 
                             diastolicBP + systolicBP + bmi)
 fit1 <- svyglm(out.formula,
                design = w.designX, 
@@ -566,10 +585,9 @@ require(Publish)
 publish(fit1)
 ```
 
-## Residual df = design$df.residual
+## Current default option
 
 ```{r, cache=TRUE}
-# current default option
 summary(fit1)$coefficients
 ```
 
