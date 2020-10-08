@@ -117,7 +117,7 @@ g2 <- grViz("
     s -> {s1}
     c -> {c1}
     t -> {t1 t2 t3 t4 t5 t6 t7 t8 t9}
-    {d b bm s a c t dd p} -> d0
+    {d b bm s c t dd p} -> d0
     d0 -> ad
 
 	  # Graph
@@ -127,7 +127,7 @@ g2 %>% export_svg %>% charToRaw %>% rsvg %>% png::writePNG("images/overallnhanes
 ```
 
 ```{r graph1xttt, echo=FALSE, out.width = '65%'}
-knitr::include_graphics("images/overallnhanesplan.png") 
+knitr::include_graphics("images/overallnhanesplan.png")  
 ```
 
 # Searching for useful variables and datasets
