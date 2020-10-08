@@ -1,6 +1,6 @@
 ---
-title: "Preparing an analytic dataset from NHANES, and working with subset of that data to get proper SE and 95% CI using R and Stata"
-author: "Ehsan Karim, ehsan.karim@ubc.ca"
+title: "Preparing an analytic dataset from NHANES, and working with subset to get proper SE and 95% CI using R and Stata"
+author: "Ehsan Karim, ehsan.karim@ubc.ca, https://ehsank.com/"
 date: "07 October 2020"
 always_allow_html: yes
 output:
@@ -1455,7 +1455,7 @@ library(foreign)
 write.dta(analytic.with.miss, "SurveyData/analyticm.dta")
 ```
 
-## Reproducing results in Stata
+# Reproducing results in Stata
 
 - [See the section on *How to Request Taylor Series Linearization to Calculate Variance in NHANES using Stata*](https://wwwn.cdc.gov/nchs/nhanes/tutorials/module4.aspx)
 
